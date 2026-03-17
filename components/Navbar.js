@@ -8,12 +8,12 @@ export default function Navbar() {
       </h1>
 
       {/* Navigation */}
-      <div className="flex gap-8 text-gray-300">
-        <a href="#" className="hover:text-white">Home</a>
-        <a href="#" className="hover:text-white">Solutions</a>
-        <a href="#" className="hover:text-white">Projects</a>
-        <a href="#" className="hover:text-white">About</a>
-        <a href="#" className="hover:text-white">Contact</a>
+      <div className="flex gap-8 text-black-300">
+        <a href="#home" className="hover:text-white">Home</a>
+        <a href="#systems" className="hover:text-white">Solutions</a>
+        <a href="#projects" className="hover:text-white">Projects</a>
+        <a href="#about" className="hover:text-white">About</a>
+        <a href="#contact" className="hover:text-white">Contact</a>
       </div>
 
       {/* CTA */}
