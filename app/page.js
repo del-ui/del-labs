@@ -2,6 +2,7 @@
 import Navbar from "../components/Navbar"
 import { motion } from "framer-motion"
 import { FaRobot, FaCloud, FaMicrochip, FaDatabase, FaLock } from "react-icons/fa"
+import CountUp from "react-countup"
 
 export default function Home() {
   return (
@@ -206,65 +207,84 @@ Technology We Use
 
 {/* PORTFOLIO */}
 
-<section id="projects" className="py-24 px-10 bg-black">
+      <section id="projects" className="py-24 px-10 bg-black">
 
-<h2 className="text-4xl font-bold text-center mb-16">
-Projects & Innovations
-</h2>
+        <h2 className="text-4xl font-bold text-center mb-16">Projects & Innovations</h2>
 
-<div className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-3 gap-10">
 
-<motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
-onClick={()=>window.location.href="/projects/pos"} >
+        <motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
+        onClick={()=>window.location.href="/projects/pos"} >
 
-<img src="/projects/pos.jpg" className="w-full h-52 object-cover"/>
+        <img src="/projects/pos.jpg" className="w-full h-52 object-cover"/>
 
-<div className="p-6">
-<h3 className="text-xl font-bold mb-2">POS Management System</h3>
-<p className="text-gray-400">
-A complete retail system for managing sales,
-inventory and financial reports.
-</p>
-</div>
+        <div className="p-6">
+        <h3 className="text-xl font-bold mb-2">POS Management System</h3>
+        <p className="text-gray-400">
+        A complete retail system for managing sales,
+        inventory and financial reports.
+        </p>
+        </div>
 
-</motion.div>
+        </motion.div>
 
 
-<motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
-onClick={()=>window.location.href="https://face-match-pop.lovable.app"} >
+        <motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
+        onClick={()=>window.location.href="https://face-match-pop.lovable.app"} >
 
-<img src="/projects/facials.png" className="w-full h-52 object-cover"/>
+        <img src="/projects/facials.png" className="w-full h-52 object-cover"/>
 
-<div className="p-6">
-<h3 className="text-xl font-bold mb-2">Facial Recognition System</h3>
-<p className="text-gray-400">
-AI-powered identity recognition system for access control
-and smart monitoring.
-</p>
-</div>
+        <div className="p-6">
+        <h3 className="text-xl font-bold mb-2">Facial Recognition System</h3>
+        <p className="text-gray-400">
+        AI-powered identity recognition system for access control
+        and smart monitoring.
+        </p>
+        </div>
 
-</motion.div>
+        </motion.div>
 
 
-<motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
-onClick={()=>window.location.href="/projects/iot"} >
+        <motion.div whileHover={{ scale:1.07 }} className="bg-gray-900 rounded-xl overflow-hidden transition cursor-pointer" 
+        onClick={()=>window.location.href="/projects/iot"} >
 
-<img src="/projects/iot.png" className="w-full h-52 object-cover"/>
+        <img src="/projects/iot.png" className="w-full h-52 object-cover"/>
 
-<div className="p-6">
-<h3 className="text-xl font-bold mb-2">IoT Monitoring Dashboard</h3>
-<p className="text-gray-400">
-Real-time monitoring system for industrial devices
-and predictive maintenance.
-</p>
-</div>
+        <div className="p-6">
+        <h3 className="text-xl font-bold mb-2">IoT Monitoring Dashboard</h3>
+        <p className="text-gray-400">
+        Real-time monitoring system for industrial devices
+        and predictive maintenance.
+        </p>
+        </div>
 
-</motion.div>
+        </motion.div>
 
-</div>
+        </div>
 
-</section>
+      </section>
 
+      {/* STATS / ACHIEVEMENTS */}
+      <section id="stats" className="py-24 px-10 bg-gray-950">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 text-center">
+          <div className="bg-black p-8 rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="text-5xl font-bold mb-2 text-blue-600"><CountUp end={50} duration={2} suffix="+" /></h3>
+            <p className="text-gray-400">Systems Built</p>
+          </div>
+          <div className="bg-black p-8 rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="text-5xl font-bold mb-2 text-purple-600"><CountUp end={20} duration={2} suffix="+" /></h3>
+            <p className="text-gray-400">Businesses Automated</p>
+          </div>
+          <div className="bg-black p-8 rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="text-5xl font-bold mb-2 text-cyan-400"><CountUp end={5} duration={2} /></h3>
+            <p className="text-gray-400">AI Platforms</p>
+          </div>
+          <div className="bg-black p-8 rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="text-5xl font-bold mb-2 text-blue-500"><CountUp end={10000} duration={2} suffix="+" /></h3>
+            <p className="text-gray-400">Users</p>
+          </div>
+        </div>
+      </section>
 
 {/* CONTACT */}
 
@@ -286,16 +306,10 @@ Start a Project with DEL-LABS
 
 <textarea rows="5" placeholder="Tell us about the system you need..." className="p-4 rounded-lg bg-black border border-gray-800"></textarea>
 
-<button className="bg-blue-600 p-4 rounded-lg hover:bg-blue-700 text-lg">
-Send Request
-</button>
-
+<button className="bg-blue-600 p-4 rounded-lg hover:bg-blue-700 text-lg">Send Request</button>
 </form>
-
 </div>
-
 </section>
-
 
 {/* FOOTER */}
 
@@ -312,9 +326,5 @@ Smart Software • AI Solutions • IoT Innovation
 <p>
 © {new Date().getFullYear()} DEL-LABS. All rights reserved.
 </p>
-
 </footer>
-
-</motion.main>
-)
-}
+</motion.main>)}
