@@ -1,4 +1,4 @@
-export default function Navbar() {
+export default function Navbar({ onGetSystemClick }) { // Destructure the prop
   return (
     <nav className="flex justify-between items-center px-10 py-6 bg-black text-white border-b border-gray-800">
 
@@ -8,7 +8,7 @@ export default function Navbar() {
       </h1>
 
       {/* Navigation */}
-      <div className="flex gap-8 text-black-300">
+      <div className="flex gap-8 text-gray-300">
         <a href="#home" className="hover:text-white">Home</a>
         <a href="#systems" className="hover:text-white">Solutions</a>
         <a href="#projects" className="hover:text-white">Projects</a>
@@ -17,10 +17,12 @@ export default function Navbar() {
       </div>
 
       {/* CTA */}
-      <button className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700">
+      <button 
+        onClick={onGetSystemClick}
+        className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700"
+      >
         Get a System
       </button>
-
     </nav>
   );
 }

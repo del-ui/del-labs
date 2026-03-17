@@ -3,8 +3,12 @@ import Navbar from "../components/Navbar"
 import { motion } from "framer-motion"
 import { FaRobot, FaCloud, FaMicrochip, FaDatabase, FaLock } from "react-icons/fa"
 import CountUp from "react-countup"
+import { useState } from "react";
 
 export default function Home() {
+  const [systemModalOpen, setSystemModalOpen] = useState(false);
+  const [selectedSystem, setSelectedSystem] = useState("");
+
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -12,7 +16,8 @@ export default function Home() {
       transition={{ duration: 1 }}
       className="min-h-screen bg-black text-white"
     >
-      <Navbar />
+      {/* Pass the function as prop */}
+      <Navbar onGetSystemClick={() => setSystemModalOpen(true)} />
 
       {/* HERO SECTION */}
       <section id="home" className="relative flex flex-col items-center justify-center h-screen text-center px-6 overflow-hidden">
@@ -24,83 +29,26 @@ export default function Home() {
         <div className="absolute top-40 right-1/3 w-72 h-72 bg-cyan-500 opacity-20 blur-3xl rounded-full"></div>
 
         {/* FLOATING TECH ICONS */}
-
-        <motion.div
-          animate={{ y: [0,-20,0] }}
-          transition={{ duration:6, repeat:Infinity }}
-          className="absolute top-24 left-24 text-blue-400 text-4xl opacity-70"
-        >
-          <FaRobot/>
-        </motion.div>
-
-        <motion.div
-          animate={{ y:[0,20,0] }}
-          transition={{ duration:7, repeat:Infinity }}
-          className="absolute top-40 right-32 text-cyan-400 text-4xl opacity-70"
-        >
-          <FaCloud/>
-        </motion.div>
-
-        <motion.div
-          animate={{ y:[0,-15,0] }}
-          transition={{ duration:5, repeat:Infinity }}
-          className="absolute bottom-32 left-40 text-purple-400 text-4xl opacity-70"
-        >
-          <FaMicrochip/>
-        </motion.div>
-
-        <motion.div
-          animate={{ y:[0,25,0] }}
-          transition={{ duration:8, repeat:Infinity }}
-          className="absolute bottom-24 right-20 text-blue-500 text-4xl opacity-70"
-        >
-          <FaDatabase/>
-        </motion.div>
-
-        <motion.div
-          animate={{ y:[0,-18,0] }}
-          transition={{ duration:6, repeat:Infinity }}
-          className="absolute top-60 left-1/2 text-cyan-300 text-4xl opacity-70"
-        >
-          <FaLock/>
-        </motion.div>
+        <motion.div animate={{ y: [0,-20,0] }} transition={{ duration:6, repeat:Infinity }} className="absolute top-24 left-24 text-blue-400 text-4xl opacity-70"><FaRobot/></motion.div>
+        <motion.div animate={{ y:[0,20,0] }} transition={{ duration:7, repeat:Infinity }} className="absolute top-40 right-32 text-cyan-400 text-4xl opacity-70"><FaCloud/></motion.div>
+        <motion.div animate={{ y:[0,-15,0] }} transition={{ duration:5, repeat:Infinity }} className="absolute bottom-32 left-40 text-purple-400 text-4xl opacity-70"><FaMicrochip/></motion.div>
+        <motion.div animate={{ y:[0,25,0] }} transition={{ duration:8, repeat:Infinity }} className="absolute bottom-24 right-20 text-blue-500 text-4xl opacity-70"><FaDatabase/></motion.div>
+        <motion.div animate={{ y:[0,-18,0] }} transition={{ duration:6, repeat:Infinity }} className="absolute top-60 left-1/2 text-cyan-300 text-4xl opacity-70"><FaLock/></motion.div>
 
         {/* HERO TEXT */}
-
-        <motion.h1
-          initial={{ opacity:0, y:50 }}
-          animate={{ opacity:1, y:0 }}
-          transition={{ duration:1 }}
-          className="text-6xl font-bold mb-6 leading-tight z-10"
-        >
+        <motion.h1 initial={{ opacity:0, y:50 }} animate={{ opacity:1, y:0 }} transition={{ duration:1 }} className="text-6xl font-bold mb-6 leading-tight z-10">
           Build Smart <span className="text-blue-600">Digital Systems</span><br/>
           for Modern Businesses
         </motion.h1>
 
         <p className="text-xl text-gray-400 max-w-2xl z-10">
-          DEL-LABS develops modern digital systems including
-          business automation platforms, AI solutions and
-          IoT technologies that help organizations operate smarter.
+          DEL-LABS develops modern digital systems including business automation platforms, AI solutions and IoT technologies that help organizations operate smarter.
         </p>
 
         <div className="mt-10 flex gap-6 z-10">
-
-          <a
-          href="#systems"
-          className="bg-blue-600 px-8 py-4 rounded-lg text-lg hover:bg-blue-700 transition"
-          >
-          Explore Solutions
-          </a>
-
-          <a
-          href="#contact"
-          className="border border-gray-500 px-8 py-4 rounded-lg text-lg hover:border-white transition"
-          >
-          Start a Project
-          </a>
-
+          <a href="#systems" className="bg-blue-600 px-8 py-4 rounded-lg text-lg hover:bg-blue-700 transition">Explore Solutions</a>
+          <a href="#contact" className="border border-gray-500 px-8 py-4 rounded-lg text-lg hover:border-white transition">Start a Project</a>
         </div>
-
       </section>
 
 
@@ -296,17 +244,49 @@ Start a Project with DEL-LABS
 
 <div className="max-w-3xl mx-auto">
 
-<form className="flex flex-col gap-6">
-
-<input type="text" placeholder="Your Name" className="p-4 rounded-lg bg-black border border-gray-800"/>
-
-<input type="email" placeholder="Your Email" className="p-4 rounded-lg bg-black border border-gray-800"/>
-
-<input type="text" placeholder="Company / Organization" className="p-4 rounded-lg bg-black border border-gray-800"/>
-
-<textarea rows="5" placeholder="Tell us about the system you need..." className="p-4 rounded-lg bg-black border border-gray-800"></textarea>
-
-<button className="bg-blue-600 p-4 rounded-lg hover:bg-blue-700 text-lg">Send Request</button>
+<form
+  className="flex flex-col gap-6"
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      company: form.company.value,
+      message: form.message.value,
+    };
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert("Your message has been sent! We will contact you soon.");
+        form.reset();
+      } else {
+        alert(result.error || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send message. Please try again later.");
+    }
+  }}
+>
+  <input name="name" type="text" placeholder="Your Name" className="p-4 rounded-lg bg-black border border-gray-800"/>
+  <input name="email" type="email" placeholder="Your Email" className="p-4 rounded-lg bg-black border border-gray-800"/>
+  <input name="company" type="text" placeholder="Company / Organization" className="p-4 rounded-lg bg-black border border-gray-800"/>
+ <textarea name="message" rows="5" placeholder="Tell us about the system you need..."
+    value={
+      selectedSystem
+        ? `I need a ${selectedSystem}. Please provide more details.`
+        : ""
+    }
+    onChange={(e) => setSelectedSystem(e.target.value)}
+    className="p-4 rounded-lg bg-black border border-gray-800"
+  />
+  <button type="submit" className="bg-blue-600 p-4 rounded-lg hover:bg-blue-700 text-lg">Send Request</button>
 </form>
 </div>
 </section>
@@ -327,4 +307,33 @@ Smart Software • AI Solutions • IoT Innovation
 © {new Date().getFullYear()} DEL-LABS. All rights reserved.
 </p>
 </footer>
-</motion.main>)}
+ {/* Modal */}
+      {systemModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-xl p-8 max-w-md w-full text-center">
+            <h3 className="text-2xl font-bold mb-4 text-white">Select the System You Need</h3>
+            <div className="flex flex-col gap-4 mb-6">
+             {["POS System", "Management System", "AI System", "IoT Monitoring"].map((sys) => (
+                <button
+                  key={sys}
+                  onClick={() => {
+                    setSelectedSystem(sys); // ✅ store selected system
+                    setSystemModalOpen(false);
+
+                    setTimeout(() => {
+                      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+                    }, 200);
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold text-white transition"
+                >
+                  {sys}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setSystemModalOpen(false)} className="text-gray-300 hover:text-white mt-2">Cancel</button>
+          </div>
+        </div>
+      )}
+    </motion.main>
+  )
+}
