@@ -15,7 +15,8 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section id="home" className="relative flex flex-col items-center justify-center h-screen text-center px-6 overflow-hidden">
-
+        <div className="tech-grid opacity-30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black"></div>
         {/* BACKGROUND GLOWS */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600 opacity-30 blur-3xl rounded-full"></div>
         <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-600 opacity-30 blur-3xl rounded-full"></div>
