@@ -1,47 +1,54 @@
-// app/api/contact/route.js
 import nodemailer from "nodemailer";
 
 export async function POST(req) {
   try {
-    const data = await req.json();
-    const { name, email, company, message } = data;
+    const { name, email, company, message } = await req.json();
 
-    console.log("Incoming data:", data); // 👈 debug
+    // 👉 SEND TO GOOGLE SHEETS
+    await fetch(process.env.GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ name, email, company, message }),
+    });
 
-    if (!name || !email || !message) {
-      return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
-    }
-
+    // 👉 EMAIL SETUP
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    // 👇 verify connection FIRST
-    await transporter.verify();
-    console.log("SMTP server ready");
-
+    // Email to YOU
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_RECEIVER,
-      subject: `New Contact from ${name}`,
-      text: `
-Name: ${name}
-Email: ${email}
-Company: ${company}
-Message: ${message}
+      to: process.env.EMAIL_USER,
+      subject: "🚀 New DEL-LABS Lead",
+      html: `
+        <h2>New Client Request</h2>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Company:</b> ${company}</p>
+        <p><b>Message:</b> ${message}</p>
       `,
     });
 
-    return new Response(JSON.stringify({ message: "Sent successfully" }), { status: 200 });
+    // Auto reply
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "DEL-LABS - Request Received",
+      html: `
+        <h3>Hello ${name},</h3>
+        <p>We’ve received your request. We’ll contact you soon.</p>
+        <p>— DEL-LABS</p>
+      `,
+    });
+
+    return Response.json({ success: true });
 
   } catch (error) {
-    console.error("FULL ERROR:", error); // 👈 THIS is what we need
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
+    console.error(error);
+    return Response.json({ error: "Failed" }, { status: 500 });
   }
 }
